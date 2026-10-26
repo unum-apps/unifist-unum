@@ -1,6 +1,6 @@
 relations-dil==0.7.0
-relations-unifist @ git+https://github.com/relations-dil/python-relations-unifist.git@44db2de327119405c263b203a28159790def3e93
-relations-unum @ git+https://github.com/relations-dil/python-relations-unum.git@4b44eaa72a1dd9721c46f1a670236c1a602a717a
+relations-unifist==0.4.1
+relations-unum==0.4.2
 relations-pymysql==0.6.19
 relations-restx==0.6.7
 relations-rest==0.5.5
