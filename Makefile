@@ -29,8 +29,9 @@ semver:
 	cd gui; VERSION=$(VERSION) SEMVER=$(SEMVER) make semver;
 
 tag:
-	-git tag -a $(VERSION) -m "Version $(VERSION)"
-	git push origin --tags
+	git ls-remote --exit-code --tags origin $(VERSION) > /dev/null 2>&1 || { \
+	git rev-parse -q --verify refs/tags/$(VERSION) > /dev/null || git tag -a $(VERSION) -m "Version $(VERSION)"; \
+	git push origin $(VERSION); }
 
 untag:
 	-git tag -d $(VERSION)

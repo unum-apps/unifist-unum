@@ -22,13 +22,13 @@ To use this app's interface (`unifist_unum`, which lists the models it owns) fro
 git+ssh://git@github.com/unum-apps/unifist-unum.git@0.1.0#egg=unifist-unum
 ```
 
-Use a version that's been tagged with `make tag`.
+Use a version that's been tagged, which Jenkins does when it's merged to main.
 
 # Development
 
 If you make changes, bump the version in `VERSION` and add to `CHANGELOG.md`.
 
-After merging to main, update locally and type `make tag` and that'll tag with the new version.
+After merging to main, Jenkins tags the version in `VERSION` and pushes the tag (it does nothing if that tag is already there). You can also update locally and type `make tag` to do the same.
 
 ## Actions
 
