@@ -27,7 +27,7 @@ pipeline {
                         stage('test') {
                             steps {
                                 dir('api') {
-                                    sh 'make test -e VERSION=${VERSION}'
+                                    sh 'make test -e VERSION=${VERSION} NETWORK=$([ -n "$CHANGE_ID" ] && echo "pr-$CHANGE_ID" || echo ${VERSION})-unifist-unum.io'
                                 }
                             }
                         }

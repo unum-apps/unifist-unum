@@ -4,7 +4,7 @@ VERSION?=dev
 SEMVER=?=$(VERSION)
 NETWORK?=$(VERSION)-unifist-unum.io
 MYSQL_IMAGE=mysql/mysql-server:5.7
-MYSQL_HOST=$(IMAGE)-mysql
+MYSQL_HOST=$(IMAGE)-mysql-$(NETWORK)
 DEBUG_PORT=15447
 TTY=$(shell if tty -s; then echo "-it"; fi)
 VOLUMES=-v ${PWD}/lib/:/opt/service/lib/ \
@@ -45,7 +45,7 @@ debug: mysql
 	docker run $(TTY) --network=$(NETWORK) $(VOLUMES) $(ENVIRONMENT) -p 127.0.0.1:$(DEBUG_PORT):5678 $(ACCOUNT)/$(IMAGE):$(VERSION) sh -c "python -m debugpy --listen 0.0.0.0:5678 --wait-for-client -m unittest discover -v test"
 
 test: mysql
-	docker run $(TTY) --network=$(NETWORK) $(VOLUMES) $(ENVIRONMENT) $(ACCOUNT)/$(IMAGE):$(VERSION) sh -c "coverage run -m unittest discover -v test && coverage report -m --include 'lib/*.py'"
+	docker run $(TTY) --network=$(NETWORK) $(VOLUMES) $(ENVIRONMENT) $(ACCOUNT)/$(IMAGE):$(VERSION) sh -c "coverage run -m unittest discover -v test && coverage report -m --include 'lib/*.py'" ; status=$$? ; docker rm --force -v $(MYSQL_HOST) ; docker network rm $(NETWORK) ; exit $$status
 
 lint:
 	docker run $(TTY) $(VOLUMES) $(ENVIRONMENT) $(ACCOUNT)/$(IMAGE):$(VERSION) sh -c "pylint --rcfile=.pylintrc lib/"
