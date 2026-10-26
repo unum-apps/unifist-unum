@@ -53,6 +53,11 @@ pipeline {
                 }
             }
         }
+        stage('setup') {
+            steps {
+                sh 'make setup'
+            }
+        }
         stage('push') {
             when {
                 branch 'main'
@@ -80,6 +85,27 @@ pipeline {
                     steps {
                         sh 'make semver -e VERSION=${VERSION}'
                     }
+                }
+            }
+        }
+        stage('tag') {
+            // Only main, so other apps can install this version from its tag. make tag does nothing if the tag is already there
+            when {
+                branch 'main'
+            }
+            // A tag needs a committer, and Jenkins has none
+            environment {
+                GIT_COMMITTER_NAME = 'Leroy Jenkins'
+                GIT_COMMITTER_EMAIL = 'leroy@jenkins.klot.io'
+            }
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'github', usernameVariable: 'GH_USER', passwordVariable: 'GH_TOKEN')]) {
+                    // Jenkins checks out a detached commit and VERSION here is the commit, so the tag is the version file's
+                    sh '''
+                        git checkout -B main
+                        git remote set-url origin "https://$GH_USER:$GH_TOKEN@${GIT_URL#https://}"
+                        make tag VERSION=$(cat VERSION)
+                    '''
                 }
             }
         }
