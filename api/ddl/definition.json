@@ -86,6 +86,7 @@
             {
                 "default": "",
                 "kind": "str",
+                "length": 64,
                 "name": "model",
                 "none": false,
                 "store": "model"
@@ -93,6 +94,7 @@
             {
                 "default": "",
                 "kind": "str",
+                "length": 64,
                 "name": "source",
                 "none": false,
                 "store": "source"
@@ -100,6 +102,7 @@
             {
                 "default": "",
                 "kind": "str",
+                "length": 64,
                 "name": "unum",
                 "none": false,
                 "store": "unum"
@@ -107,6 +110,7 @@
             {
                 "default": "owner",
                 "kind": "str",
+                "length": 64,
                 "name": "role",
                 "none": false,
                 "options": [
@@ -118,6 +122,7 @@
             },
             {
                 "kind": "str",
+                "length": 64,
                 "name": "holder",
                 "none": false,
                 "store": "holder"
@@ -167,6 +172,7 @@
             {
                 "default": "",
                 "kind": "str",
+                "length": 64,
                 "name": "model",
                 "none": false,
                 "store": "model"
@@ -174,6 +180,7 @@
             {
                 "default": "",
                 "kind": "str",
+                "length": 64,
                 "name": "source",
                 "none": false,
                 "store": "source"
@@ -181,6 +188,7 @@
             {
                 "default": "",
                 "kind": "str",
+                "length": 64,
                 "name": "unum",
                 "none": false,
                 "store": "unum"
@@ -225,18 +233,21 @@
             },
             {
                 "kind": "str",
+                "length": 64,
                 "name": "unum",
                 "none": false,
                 "store": "unum"
             },
             {
                 "kind": "str",
+                "length": 64,
                 "name": "source",
                 "none": false,
                 "store": "source"
             },
             {
                 "kind": "str",
+                "length": 64,
                 "name": "model",
                 "none": false,
                 "store": "model"
@@ -275,18 +286,21 @@
             },
             {
                 "kind": "str",
+                "length": 64,
                 "name": "unum",
                 "none": false,
                 "store": "unum"
             },
             {
                 "kind": "str",
+                "length": 64,
                 "name": "source",
                 "none": false,
                 "store": "source"
             },
             {
                 "kind": "str",
+                "length": 64,
                 "name": "model",
                 "none": false,
                 "store": "model"
