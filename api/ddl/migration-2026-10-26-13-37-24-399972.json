@@ -1,0 +1,195 @@
+{
+    "change": {
+        "clash": {
+            "definition": {
+                "fields": [
+                    {
+                        "auto": false,
+                        "kind": "str",
+                        "name": "id",
+                        "none": false,
+                        "readonly": true,
+                        "store": "id"
+                    },
+                    {
+                        "kind": "dict",
+                        "name": "what",
+                        "none": false,
+                        "store": "what"
+                    }
+                ],
+                "id": "id",
+                "index": {},
+                "name": "clash",
+                "schema": "unifist",
+                "source": "unifist",
+                "store": "clash",
+                "title": "Clash",
+                "unique": {}
+            },
+            "migration": {
+                "schema": "unum",
+                "source": "unum"
+            }
+        },
+        "route": {
+            "definition": {
+                "fields": [
+                    {
+                        "auto": true,
+                        "kind": "int",
+                        "name": "id",
+                        "none": true,
+                        "store": "id"
+                    },
+                    {
+                        "default": "",
+                        "kind": "str",
+                        "name": "identifier",
+                        "none": false,
+                        "store": "identifier"
+                    },
+                    {
+                        "default": "",
+                        "kind": "str",
+                        "name": "model",
+                        "none": false,
+                        "store": "model"
+                    },
+                    {
+                        "default": "",
+                        "kind": "str",
+                        "name": "source",
+                        "none": false,
+                        "store": "source"
+                    },
+                    {
+                        "default": "",
+                        "kind": "str",
+                        "name": "unum",
+                        "none": false,
+                        "store": "unum"
+                    },
+                    {
+                        "default": "owner",
+                        "kind": "str",
+                        "name": "role",
+                        "none": false,
+                        "options": [
+                            "owner",
+                            "writer",
+                            "reader"
+                        ],
+                        "store": "role"
+                    },
+                    {
+                        "kind": "str",
+                        "name": "holder",
+                        "none": false,
+                        "store": "holder"
+                    },
+                    {
+                        "default": "",
+                        "kind": "str",
+                        "name": "url",
+                        "none": false,
+                        "store": "url"
+                    }
+                ],
+                "id": "id",
+                "index": {},
+                "name": "route",
+                "schema": "unifist",
+                "source": "unifist",
+                "store": "route",
+                "title": "Route",
+                "unique": {
+                    "identifier-model-source-unum-role-holder": [
+                        "identifier",
+                        "model",
+                        "source",
+                        "unum",
+                        "role",
+                        "holder"
+                    ]
+                }
+            },
+            "migration": {
+                "schema": "unum",
+                "source": "unum"
+            }
+        },
+        "scribe": {
+            "definition": {
+                "fields": [
+                    {
+                        "auto": true,
+                        "kind": "int",
+                        "name": "id",
+                        "none": true,
+                        "store": "id"
+                    },
+                    {
+                        "default": "",
+                        "kind": "str",
+                        "name": "identifier",
+                        "none": false,
+                        "store": "identifier"
+                    },
+                    {
+                        "default": "",
+                        "kind": "str",
+                        "name": "model",
+                        "none": false,
+                        "store": "model"
+                    },
+                    {
+                        "default": "",
+                        "kind": "str",
+                        "name": "source",
+                        "none": false,
+                        "store": "source"
+                    },
+                    {
+                        "default": "",
+                        "kind": "str",
+                        "name": "unum",
+                        "none": false,
+                        "store": "unum"
+                    },
+                    {
+                        "default": "owner",
+                        "kind": "str",
+                        "name": "to",
+                        "none": false,
+                        "options": [
+                            "owner",
+                            "writer",
+                            "local"
+                        ],
+                        "store": "to"
+                    }
+                ],
+                "id": "id",
+                "index": {},
+                "name": "scribe",
+                "schema": "unifist",
+                "source": "unifist",
+                "store": "scribe",
+                "title": "Scribe",
+                "unique": {
+                    "identifier-model-source-unum": [
+                        "identifier",
+                        "model",
+                        "source",
+                        "unum"
+                    ]
+                }
+            },
+            "migration": {
+                "schema": "unum",
+                "source": "unum"
+            }
+        }
+    }
+}
