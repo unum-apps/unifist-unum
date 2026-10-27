@@ -14,11 +14,21 @@ Create a `Route` and it works.
 - [kubectx](https://formulae.brew.sh/formula/kubectx)
 - [Tilt](https://docs.tilt.dev/install.html)
 
+# Install
+
+To use this app's interface (`unifist_unum`, which lists the models it owns) from another app, list it in requirements.txt as:
+
+```
+git+ssh://git@github.com/unum-apps/unifist-unum.git@0.1.0#egg=unifist-unum
+```
+
+Use a version that's been tagged, which Jenkins does when it's merged to main.
+
 # Development
 
 If you make changes, bump the version in `VERSION` and add to `CHANGELOG.md`.
 
-After merging to main, update locally and type `make tag` and that'll tag with the new version.
+After merging to main, Jenkins tags the version in `VERSION` and pushes the tag (it does nothing if that tag is already there). You can also update locally and type `make tag` to do the same.
 
 ## Actions
 
@@ -27,6 +37,7 @@ Make sure you also have https://github.com/gaf3/tilt-mysql up and running.
 - `make up` - Fires up Tilt (run locally in Kuberentes). Hit space to open the dashboard in a browser
   - In the browser, if any micorservices (blocks) fail (turn red/yellow) click the refresh in the block
 - `make down` - Removes everything locally from Kuberentes
+- `make setup` - Verifies that this repo can be installed as a module by other apps
 - `make tag` - Tags this repo because you're absolutely sure this is perfect and will work
 - `make untag` - Undoes the taggin you just did because you totally screwed something up
 
@@ -34,6 +45,7 @@ Make sure you also have https://github.com/gaf3/tilt-mysql up and running.
 
 - `Makefile` - File that provides all the `make` commands
 - `Tiltfile` - Deploys to the locally Kubernetes environment
+- `setup.py` - Makes this repo installable as a module, `pip install git+ssh://git@github.com/unum-apps/unifist-unum.git@0.1.0`, to use `unifist_unum`
 - `kubernetes/` - Service Kubernetes files
   - `tilt/` - Tilt kustomization for the service to deploy locally
     - `namespace.yaml` - Namespace file
