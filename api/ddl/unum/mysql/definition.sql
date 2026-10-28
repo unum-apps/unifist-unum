@@ -9,12 +9,12 @@ CREATE TABLE IF NOT EXISTS `unum`.`route` (
   `identifier` VARCHAR(255) NOT NULL DEFAULT '',
   `model` VARCHAR(64) NOT NULL DEFAULT '',
   `source` VARCHAR(64) NOT NULL DEFAULT '',
-  `unum` VARCHAR(64) NOT NULL DEFAULT '',
+  `home` VARCHAR(64) NOT NULL DEFAULT '',
   `role` VARCHAR(64) NOT NULL DEFAULT 'owner',
   `holder` VARCHAR(64) NOT NULL,
   `url` VARCHAR(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
-  UNIQUE `identifier_model_source_unum_role_holder` (`identifier`,`model`,`source`,`unum`,`role`,`holder`)
+  UNIQUE `identifier_model_source_home_role_holder` (`identifier`,`model`,`source`,`home`,`role`,`holder`)
 );
 
 CREATE TABLE IF NOT EXISTS `unum`.`scribe` (
@@ -22,8 +22,8 @@ CREATE TABLE IF NOT EXISTS `unum`.`scribe` (
   `identifier` VARCHAR(255) NOT NULL DEFAULT '',
   `model` VARCHAR(64) NOT NULL DEFAULT '',
   `source` VARCHAR(64) NOT NULL DEFAULT '',
-  `unum` VARCHAR(64) NOT NULL DEFAULT '',
+  `home` VARCHAR(64) NOT NULL DEFAULT '',
   `to` VARCHAR(255) NOT NULL DEFAULT 'owner',
   PRIMARY KEY (`id`),
-  UNIQUE `identifier_model_source_unum` (`identifier`,`model`,`source`,`unum`)
+  UNIQUE `identifier_model_source_home` (`identifier`,`model`,`source`,`home`)
 );

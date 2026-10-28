@@ -122,7 +122,7 @@ class TestModelAPI(Testrestx):
 
     def test_route(self):
 
-        response = self.api.post("/model/route", json={"route": {"unum": "b", "role": "owner", "holder": "b", "url": "http://b"}})
+        response = self.api.post("/model/route", json={"route": {"home": "b", "role": "owner", "holder": "b", "url": "http://b"}})
 
         self.assertEqual(response.status_code, 201)
 

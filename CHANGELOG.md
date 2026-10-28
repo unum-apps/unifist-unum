@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.0
+
+- A record's `unum` field is `home` (relations-unifist 0.5.0, relations-unum 0.5.0), so the `sequence` and `slug` tables in `unifist` and the `route` and `scribe` tables in `unum` have a `home` column in place of `unum` (relations-dil/python-relations-unifist#17). The migration renames the columns and replaces their unique keys, and keeps the rows, so a Unum made before is migrated when the API starts. A `Route` is made with `home`, not `unum`: `{"home": "b", "role": "owner", "holder": "b", "url": "http://b"}`.
+
 ## 0.1.0
 
 - The Unifist Unum app: an API and a GUI over the six tables everything else uses, `Sequence`, `Slug` and `Journal` (relations-unifist) and `Route`, `Scribe` and `Clash` (relations-unum).
