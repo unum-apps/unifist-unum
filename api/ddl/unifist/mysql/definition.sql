@@ -9,20 +9,20 @@ CREATE TABLE IF NOT EXISTS `unifist`.`journal` (
 
 CREATE TABLE IF NOT EXISTS `unifist`.`sequence` (
   `id` BIGINT AUTO_INCREMENT,
-  `unum` VARCHAR(64) NOT NULL,
+  `home` VARCHAR(64) NOT NULL,
   `source` VARCHAR(64) NOT NULL,
   `model` VARCHAR(64) NOT NULL,
   `current` BIGINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  UNIQUE `unum_source_model` (`unum`,`source`,`model`)
+  UNIQUE `home_source_model` (`home`,`source`,`model`)
 );
 
 CREATE TABLE IF NOT EXISTS `unifist`.`slug` (
   `id` BIGINT AUTO_INCREMENT,
-  `unum` VARCHAR(64) NOT NULL,
+  `home` VARCHAR(64) NOT NULL,
   `source` VARCHAR(64) NOT NULL,
   `model` VARCHAR(64) NOT NULL,
   `current` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE `unum_source_model_current` (`unum`,`source`,`model`,`current`)
+  UNIQUE `home_source_model_current` (`home`,`source`,`model`,`current`)
 );

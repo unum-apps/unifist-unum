@@ -15,7 +15,7 @@ setup(
     package_dir = {'': 'api/lib'},
     py_modules = ['unifist_unum'],
     install_requires=[
-        'relations-unifist==0.4.1',
-        'relations-unum==0.4.2'
+        'relations-unifist>=0.5.0',
+        'relations-unum>=0.5.0'
     ]
 )
