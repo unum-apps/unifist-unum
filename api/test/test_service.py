@@ -342,6 +342,44 @@ class TestJoin(relations.unittest.TestCase):
 
         self.assertEqual(self.api.delete("/follow/us").status_code, 400)
 
+    def test_lookup(self):
+
+        # What the unum at the url says it is, for the person to confirm, with nothing written
+
+        response = self.api.post("/lookup", json={"url": self.url})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json, {"unum": "them", "fingerprint": trust.fingerprint(self.them), "apps": self.answer["apps"]})
+
+        self.assertEqual(self.get.call_count, 1)
+        self.assertEqual(self.get.call_args.args, (f"{self.url}/unum",))
+        self.assertIs(self.get.call_args.kwargs["verify"], False)
+
+        self.assertEqual(self.routes(), [])
+        self.assertEqual(self.secrets, {"traefik/trusted": self.us, "cumulus/unum-roots": ""})
+
+        # A unum that doesn't answer
+
+        self.get.side_effect = Exception("connection refused")
+
+        self.assertEqual(self.api.post("/lookup", json={"url": self.url}).status_code, 502)
+
+    def test_accepted(self):
+
+        # The roots the ingress trusts, by unum
+
+        response = self.api.get("/accept")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json, {"accepted": [{"unum": "us", "fingerprint": trust.fingerprint(self.us)}]})
+
+        self.api.post("/accept", json={"url": self.url, "fingerprint": trust.fingerprint(self.them)})
+
+        self.assertEqual(self.api.get("/accept").json["accepted"], [
+            {"unum": "us", "fingerprint": trust.fingerprint(self.us)},
+            {"unum": "them", "fingerprint": trust.fingerprint(self.them)}
+        ])
+
     def test_accept(self):
 
         body = {"url": self.url, "fingerprint": trust.fingerprint(self.them)}
