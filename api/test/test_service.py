@@ -300,6 +300,17 @@ class TestJoin(relations.unittest.TestCase):
         self.assertEqual(self.routes(), [])
         self.assertEqual(self.secrets["cumulus/unum-roots"], "")
 
+    def test_follow_unreachable(self):
+
+        # A unum that doesn't answer
+
+        self.get.side_effect = Exception("connection refused")
+
+        response = self.api.post("/follow", json={"url": self.url, "fingerprint": trust.fingerprint(self.them)})
+
+        self.assertEqual(response.status_code, 502)
+        self.assertEqual(self.routes(), [])
+
     def test_follow_app(self):
 
         # Which of its apps to route to, when it has more than one
