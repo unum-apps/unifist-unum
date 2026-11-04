@@ -1,5 +1,5 @@
 DRApp.controller("Unums", "Base", {
-    // This Unum and who it reads, kept up to date in what the page shows
+    // This Unum, who it reads and who it accepts, kept up to date in what the page shows
     load: function() {
         var unum = DRApp.rest("GET", "api/unum");
         var routes = DRApp.rest("GET", "api/model/route")["routes"];
@@ -13,6 +13,7 @@ DRApp.controller("Unums", "Base", {
         }
         this.it.unum = unum;
         this.it.followed = followed;
+        this.it.accepted = DRApp.rest("GET", "api/accept")["accepted"];
         DRApp.render(this.it);
     },
     join: function() {
@@ -43,6 +44,12 @@ DRApp.controller("Unums", "Base", {
     unfollow: function(unum) {
         if (confirm("Stop reading " + unum + "?")) {
             DRApp.rest("DELETE", "api/follow/" + encodeURIComponent(unum));
+            this.load();
+        }
+    },
+    revoke: function(unum) {
+        if (confirm("Stop letting " + unum + " read this Unum?")) {
+            DRApp.rest("DELETE", "api/accept/" + encodeURIComponent(unum));
             this.load();
         }
     }
