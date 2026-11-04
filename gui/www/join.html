@@ -3,11 +3,11 @@
 <div class="uk-overflow-container">
     <h2>{{= it.unum.unum }}</h2>
     <p class="uk-text-muted">
-        This Unum. Whoever joins it types its api url, and is shown its fingerprint, the fingerprint of its root, which they
+        This Unum. Whoever joins it types its API url, and is shown its fingerprint, the fingerprint of its root, which they
         should check matches this one before they join.
     </p>
     <p>
-        Api url:<br/>
+        API url:<br/>
         <code id="unum_url">{{= it.unum.apps['unifist-unum'] }}</code>
         <button type="button" OnClick="DRApp.current.controller.copy('unum_url', this);" class="uk-button uk-button-small">
             Copy
@@ -23,11 +23,11 @@
 
     <h3>Join</h3>
     <p class="uk-text-muted">
-        Join another Unum with the api url it gives you. Look it up, check that its fingerprint matches the one on its own Join
+        Join another Unum with the API url it gives you. Look it up, check that its fingerprint matches the one on its own Join
         page, then choose to read its records (follow it) and to let it in (accept it). The other Unum does the same for this one.
     </p>
     <form class="uk-form">
-        <input id="url" value="{{!it.url}}" type="text" size="50" placeholder="the api url of the Unum to join"/>
+        <input id="url" value="{{!it.url}}" type="text" size="50" placeholder="the API url of the Unum to join"/>
         <button type="button" OnClick="DRApp.current.controller.look();" class="uk-button uk-button-primary">
             Look up
         </button>
