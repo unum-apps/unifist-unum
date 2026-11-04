@@ -39,26 +39,6 @@
     </form>
 {{?}}
 
-    <h3>Reads</h3>
-    <table class="uk-table">
-        <thead>
-            <tr><th>Unum</th><th>Url</th><th></th></tr>
-        </thead>
-        <tbody>
-{{~it.followed :route}}
-            <tr>
-                <td>{{= route.holder }}</td>
-                <td>{{= route.url }}</td>
-                <td>
-                    <button type="button" OnClick="DRApp.current.controller.unfollow('{{!route.holder}}');" class="uk-button uk-button-small">
-                        Unfollow
-                    </button>
-                </td>
-            </tr>
-{{~}}
-        </tbody>
-    </table>
-
     <h3>Accepts</h3>
     <table class="uk-table">
         <thead>
@@ -75,6 +55,26 @@
                         Revoke
                     </button>
     {{?}}
+                </td>
+            </tr>
+{{~}}
+        </tbody>
+    </table>
+
+    <h3>Reads</h3>
+    <table class="uk-table">
+        <thead>
+            <tr><th>Unum</th><th>Url</th><th></th></tr>
+        </thead>
+        <tbody>
+{{~it.followed :route}}
+            <tr>
+                <td>{{= route.holder }}</td>
+                <td>{{= route.url }}</td>
+                <td>
+                    <button type="button" OnClick="DRApp.current.controller.unfollow('{{!route.holder}}');" class="uk-button uk-button-small">
+                        Unfollow
+                    </button>
                 </td>
             </tr>
 {{~}}
