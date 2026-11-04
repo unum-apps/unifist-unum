@@ -1,0 +1,39 @@
+{{#def.Header}}
+
+<div class="uk-overflow-container">
+    <form class="uk-form">
+        <input id="url" value="{{!it.url}}" type="text" size="50" placeholder="the api url of the Unum to join"/>
+        <button type="button" OnClick="DRApp.current.controller.look();" class="uk-button uk-button-primary">
+            Look up
+        </button>
+        <button type="button" OnClick="DRApp.go('home');" class="uk-button">
+            Cancel
+        </button>
+    </form>
+{{? it.looked }}
+    <h3>{{= it.looked.unum }}</h3>
+    <p>
+        Fingerprint of its root. Join it only if this is the one shown on its own Home page:<br/>
+        <code>{{= it.looked.fingerprint }}</code>
+    </p>
+    <form class="uk-form">
+    {{? it.apps.length > 1 }}
+        <p>
+            Read the records of
+            <select id="app">
+        {{~it.apps :app}}
+                <option value="{{!app}}">{{= app }}</option>
+        {{~}}
+            </select>
+        </p>
+    {{?}}
+        <p><label><input id="follow" type="checkbox" checked/> Read its records</label></p>
+        <p><label><input id="accept" type="checkbox" checked/> Let it read mine</label></p>
+        <button type="button" OnClick="DRApp.current.controller.join_save();" class="uk-button uk-button-primary">
+            Join
+        </button>
+    </form>
+{{?}}
+</div>
+
+{{#def.Footer}}
