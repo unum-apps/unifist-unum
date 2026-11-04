@@ -2,12 +2,30 @@
 
 <div class="uk-overflow-container">
     <h2>{{= it.unum.unum }}</h2>
+    <p class="uk-text-muted">
+        This Unum. Whoever joins it types its api url, and is shown its fingerprint, the fingerprint of its root, which they
+        should check matches this one before they join.
+    </p>
     <p>
-        Fingerprint of this Unum's root, for whoever joins it to compare:<br/>
-        <code>{{= it.unum.fingerprint }}</code>
+        Api url:<br/>
+        <code id="unum_url">{{= it.unum.apps['unifist-unum'] }}</code>
+        <button type="button" OnClick="DRApp.current.controller.copy('unum_url', this);" class="uk-button uk-button-small">
+            Copy
+        </button>
+    </p>
+    <p>
+        Fingerprint:<br/>
+        <code id="unum_fingerprint">{{= it.unum.fingerprint }}</code>
+        <button type="button" OnClick="DRApp.current.controller.copy('unum_fingerprint', this);" class="uk-button uk-button-small">
+            Copy
+        </button>
     </p>
 
     <h3>Join</h3>
+    <p class="uk-text-muted">
+        Join another Unum with the api url it gives you. Look it up, check that its fingerprint matches the one on its own Join
+        page, then choose to read its records (follow it) and to let it in (accept it). The other Unum does the same for this one.
+    </p>
     <form class="uk-form">
         <input id="url" value="{{!it.url}}" type="text" size="50" placeholder="the api url of the Unum to join"/>
         <button type="button" OnClick="DRApp.current.controller.look();" class="uk-button uk-button-primary">
@@ -40,6 +58,10 @@
 {{?}}
 
     <h3>Accepts</h3>
+    <p class="uk-text-muted">
+        The Unums this Unum lets in: it holds their root, so their calls come through, to read and to write. Revoke removes the root,
+        so new calls from that Unum are refused (ones already open last until they close).
+    </p>
     <table class="uk-table">
         <thead>
             <tr><th>Unum</th><th>Fingerprint</th><th></th></tr>
@@ -62,6 +84,9 @@
     </table>
 
     <h3>Reads</h3>
+    <p class="uk-text-muted">
+        The Unums whose records this Unum reads, and the url it reads them at. Unfollow stops reading them.
+    </p>
     <table class="uk-table">
         <thead>
             <tr><th>Unum</th><th>Url</th><th></th></tr>

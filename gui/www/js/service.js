@@ -16,6 +16,23 @@ DRApp.controller("Unums", "Base", {
         this.it.accepted = DRApp.rest("GET", "api/accept")["accepted"];
         DRApp.render(this.it);
     },
+    // The text of an element onto the clipboard, the button saying so for a moment
+    copy: function(id, button) {
+        var text = $('#' + id).text();
+        var done = function() {
+            $(button).text("Copied");
+            setTimeout(function() { $(button).text("Copy"); }, 1500);
+        };
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(done);
+        } else {
+            var area = $('<textarea>').val(text).appendTo('body');
+            area.select();
+            document.execCommand('copy');
+            area.remove();
+            done();
+        }
+    },
     join: function() {
         this.it = {url: "", looked: null, apps: []};
         this.load();
