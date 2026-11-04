@@ -1,0 +1,110 @@
+{{#def.Header}}
+
+<div class="uk-overflow-container">
+    <h2>{{= it.unum.unum }}</h2>
+    <p class="uk-text-muted">
+        This Unum. Whoever joins it types its API url, and is shown its fingerprint, the fingerprint of its root, which they
+        should check matches this one before they join.
+    </p>
+    <p>
+        API url:<br/>
+        <code id="unum_url">{{= it.unum.apps['unifist-unum'] }}</code>
+        <button type="button" OnClick="DRApp.current.controller.copy('unum_url', this);" class="uk-button uk-button-small">
+            Copy
+        </button>
+    </p>
+    <p>
+        Fingerprint:<br/>
+        <code id="unum_fingerprint">{{= it.unum.fingerprint }}</code>
+        <button type="button" OnClick="DRApp.current.controller.copy('unum_fingerprint', this);" class="uk-button uk-button-small">
+            Copy
+        </button>
+    </p>
+
+    <h3>Join</h3>
+    <p class="uk-text-muted">
+        Join another Unum with the API url it gives you. Look it up, check that its fingerprint matches the one on its own Join
+        page, then choose to read its records (follow it) and to let it in (accept it). The other Unum does the same for this one.
+    </p>
+    <form class="uk-form">
+        <input id="url" value="{{!it.url}}" type="text" size="50" placeholder="the API url of the Unum to join"/>
+        <button type="button" OnClick="DRApp.current.controller.look();" class="uk-button uk-button-primary">
+            Look up
+        </button>
+    </form>
+{{? it.looked }}
+    <h4>{{= it.looked.unum }}</h4>
+    <p>
+        Fingerprint of its root. Join it only if this is the one shown on its own Join page:<br/>
+        <code>{{= it.looked.fingerprint }}</code>
+    </p>
+    <form class="uk-form">
+    {{? it.apps.length > 1 }}
+        <p>
+            Read the records of
+            <select id="app">
+        {{~it.apps :app}}
+                <option value="{{!app}}">{{= app }}</option>
+        {{~}}
+            </select>
+        </p>
+    {{?}}
+        <p><label><input id="follow" type="checkbox" checked/> Read its records</label></p>
+        <p><label><input id="accept" type="checkbox" checked/> Let it read mine</label></p>
+        <button type="button" OnClick="DRApp.current.controller.join_save();" class="uk-button uk-button-primary">
+            Join
+        </button>
+    </form>
+{{?}}
+
+    <h3>Accepts</h3>
+    <p class="uk-text-muted">
+        The Unums this Unum lets in: it holds their root, so their calls come through, to read and to write. Revoke removes the root,
+        so new calls from that Unum are refused (ones already open last until they close).
+    </p>
+    <table class="uk-table">
+        <thead>
+            <tr><th>Unum</th><th>Fingerprint</th><th></th></tr>
+        </thead>
+        <tbody>
+{{~it.accepted :accepted}}
+            <tr>
+                <td>{{= accepted.unum }}</td>
+                <td><code>{{= accepted.fingerprint }}</code></td>
+                <td>
+    {{? accepted.unum != it.unum.unum }}
+                    <button type="button" OnClick="DRApp.current.controller.revoke('{{!accepted.unum}}');" class="uk-button uk-button-small">
+                        Revoke
+                    </button>
+    {{?}}
+                </td>
+            </tr>
+{{~}}
+        </tbody>
+    </table>
+
+    <h3>Reads</h3>
+    <p class="uk-text-muted">
+        The Unums whose records this Unum reads, and the url it reads them at. Unfollow stops reading them.
+    </p>
+    <table class="uk-table">
+        <thead>
+            <tr><th>Unum</th><th>Url</th><th></th></tr>
+        </thead>
+        <tbody>
+{{~it.followed :route}}
+            <tr>
+                <td>{{= route.holder }}</td>
+                <td>{{= route.url }}</td>
+                <td>
+                    <button type="button" OnClick="DRApp.current.controller.unfollow('{{!route.holder}}');" class="uk-button uk-button-small">
+                        Unfollow
+                    </button>
+                </td>
+            </tr>
+{{~}}
+        </tbody>
+    </table>
+</div>
+
+{{#def.Footer}}

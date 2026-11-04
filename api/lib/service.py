@@ -52,6 +52,7 @@ def build():
 
     api.add_resource(Health, '/health')
     api.add_resource(Unum, '/unum')
+    api.add_resource(Lookup, '/lookup')
     api.add_resource(Follow, '/follow')
     api.add_resource(Followed, '/follow/<string:unum>')
     api.add_resource(Accept, '/accept')
@@ -81,20 +82,28 @@ def config():
     with open(CONFIG, "r", encoding="utf-8") as config_file:
         return json.loads(config_file.read())
 
+def look(url):
+    """
+    What the unum at the url says it is, with nothing checked, because its root can only be taken on trust the first time
+    """
+
+    other = None
+
+    try:
+        other = requests.get(f"{url}/unum", verify=False, timeout=10).json()
+    except Exception as exception:  # pylint: disable=broad-except
+        flask_restx.abort(502, f"{url} did not answer who it is: {exception}")
+
+    return other
+
 def fetch(url, fingerprint):
     """
-    What the unum at the url says it is. Its root can only be taken on trust the first time, so the first
-    request checks nothing, and the root it gives has to be the one with the fingerprint the person confirmed,
-    and the second request, which does check, has to find the server's certificate is from that root
+    What the unum at the url says it is, if the root it gives is the one with the fingerprint the person confirmed,
+    and the server's certificate, which the second request does check, is from that root
     """
 
     url = url.rstrip("/")
-
-    try:
-        first = requests.get(f"{url}/unum", verify=False, timeout=10).json()
-        root = first["root"]
-    except Exception as exception:  # pylint: disable=broad-except
-        flask_restx.abort(502, f"{url} did not answer who it is: {exception}")
+    root = look(url)["root"]
 
     if trust.fingerprint(root) != fingerprint:
         flask_restx.abort(409, f"{url} has a root with fingerprint {trust.fingerprint(root)}, not {fingerprint}")
@@ -145,6 +154,21 @@ class Unum(flask_restx.Resource):
             root = root_file.read()
 
         return {"unum": config()["unum"], "root": root, "fingerprint": trust.fingerprint(root), "apps": config().get("apps", {})}
+
+
+class Lookup(flask_restx.Resource):
+    """
+    Finding out who a unum is before joining it
+    """
+
+    def post(self):
+        """
+        Asks the unum at the url who it is, for the person to confirm its fingerprint, and writes nothing
+        """
+
+        other = look((flask.request.json or {}).get("url", "").rstrip("/"))
+
+        return {"unum": other["unum"], "fingerprint": trust.fingerprint(other["root"]), "apps": other.get("apps", {})}
 
 
 class Follow(flask_restx.Resource):
@@ -210,6 +234,15 @@ class Accept(flask_restx.Resource):
     """
     Letting another unum read this one's records: its root in what the ingress trusts
     """
+
+    def get(self):
+        """
+        The unums whose roots it trusts, which includes this one
+        """
+
+        roots = trust.split(trust.read(config()["trusted"]))
+
+        return {"accepted": [{"unum": trust.name(pem), "fingerprint": trust.fingerprint(pem)} for pem in roots]}
 
     def post(self):
         """
