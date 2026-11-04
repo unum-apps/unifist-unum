@@ -39,28 +39,6 @@
     </form>
 {{?}}
 
-    <h3>Accepts</h3>
-    <table class="uk-table">
-        <thead>
-            <tr><th>Unum</th><th>Fingerprint</th><th></th></tr>
-        </thead>
-        <tbody>
-{{~it.accepted :accepted}}
-            <tr>
-                <td>{{= accepted.unum }}</td>
-                <td><code>{{= accepted.fingerprint }}</code></td>
-                <td>
-    {{? accepted.unum != it.unum.unum }}
-                    <button type="button" OnClick="DRApp.current.controller.revoke('{{!accepted.unum}}');" class="uk-button uk-button-small">
-                        Revoke
-                    </button>
-    {{?}}
-                </td>
-            </tr>
-{{~}}
-        </tbody>
-    </table>
-
     <h3>Reads</h3>
     <table class="uk-table">
         <thead>
