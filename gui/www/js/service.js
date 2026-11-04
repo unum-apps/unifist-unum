@@ -1,6 +1,6 @@
 DRApp.controller("Unums", "Base", {
-    // This Unum, who it reads and who it accepts
-    home: function() {
+    // This Unum, who it reads and who it accepts, kept up to date in what the page shows
+    load: function() {
         var unum = DRApp.rest("GET", "api/unum");
         var routes = DRApp.rest("GET", "api/model/route")["routes"];
         var seen = {};
@@ -11,19 +11,20 @@ DRApp.controller("Unums", "Base", {
                 followed.push(routes[route]);
             }
         }
-        this.it = {unum: unum, followed: followed, accepted: DRApp.rest("GET", "api/accept")["accepted"]};
+        this.it.unum = unum;
+        this.it.followed = followed;
+        this.it.accepted = DRApp.rest("GET", "api/accept")["accepted"];
         DRApp.render(this.it);
     },
     join: function() {
         this.it = {url: "", looked: null, apps: []};
-        DRApp.render(this.it);
+        this.load();
     },
     // Who the Unum at the url says it is, to confirm its fingerprint before joining it
     look: function() {
-        var url = $('#url').val();
-        var looked = DRApp.rest("POST", "api/lookup", {url: url});
-        var apps = Object.keys(looked.apps).filter(function(app) { return app != "unifist-unum"; });
-        this.it = {url: url, looked: looked, apps: apps};
+        this.it.url = $('#url').val();
+        this.it.looked = DRApp.rest("POST", "api/lookup", {url: this.it.url});
+        this.it.apps = Object.keys(this.it.looked.apps).filter(function(app) { return app != "unifist-unum"; });
         DRApp.render(this.it);
     },
     join_save: function() {
@@ -38,25 +39,25 @@ DRApp.controller("Unums", "Base", {
         if ($('#accept').prop('checked')) {
             DRApp.rest("POST", "api/accept", body);
         }
-        DRApp.go("home");
+        this.join();
     },
     unfollow: function(unum) {
         if (confirm("Stop reading " + unum + "?")) {
             DRApp.rest("DELETE", "api/follow/" + encodeURIComponent(unum));
-            this.home();
+            this.load();
         }
     },
     revoke: function(unum) {
         if (confirm("Stop letting " + unum + " read this Unum?")) {
             DRApp.rest("DELETE", "api/accept/" + encodeURIComponent(unum));
-            this.home();
+            this.load();
         }
     }
 });
 
 DRApp.template("Join", DRApp.load("join"), null, DRApp.partials);
 
-DRApp.route("home", "/", "Home", "Unums", "home");
+DRApp.route("home", "/", "Home", "Base", "home");
 DRApp.route("join", "/join", "Join", "Unums", "join");
 
 DRApp.models = DRApp.rest("GET", "api/model")["models"];

@@ -1,19 +1,23 @@
 {{#def.Header}}
 
 <div class="uk-overflow-container">
+    <h2>{{= it.unum.unum }}</h2>
+    <p>
+        Fingerprint of this Unum's root, for whoever joins it to compare:<br/>
+        <code>{{= it.unum.fingerprint }}</code>
+    </p>
+
+    <h3>Join</h3>
     <form class="uk-form">
         <input id="url" value="{{!it.url}}" type="text" size="50" placeholder="the api url of the Unum to join"/>
         <button type="button" OnClick="DRApp.current.controller.look();" class="uk-button uk-button-primary">
             Look up
         </button>
-        <button type="button" OnClick="DRApp.go('home');" class="uk-button">
-            Cancel
-        </button>
     </form>
 {{? it.looked }}
-    <h3>{{= it.looked.unum }}</h3>
+    <h4>{{= it.looked.unum }}</h4>
     <p>
-        Fingerprint of its root. Join it only if this is the one shown on its own Home page:<br/>
+        Fingerprint of its root. Join it only if this is the one shown on its own Join page:<br/>
         <code>{{= it.looked.fingerprint }}</code>
     </p>
     <form class="uk-form">
@@ -34,6 +38,48 @@
         </button>
     </form>
 {{?}}
+
+    <h3>Reads</h3>
+    <table class="uk-table">
+        <thead>
+            <tr><th>Unum</th><th>Url</th><th></th></tr>
+        </thead>
+        <tbody>
+{{~it.followed :route}}
+            <tr>
+                <td>{{= route.holder }}</td>
+                <td>{{= route.url }}</td>
+                <td>
+                    <button type="button" OnClick="DRApp.current.controller.unfollow('{{!route.holder}}');" class="uk-button uk-button-small">
+                        Unfollow
+                    </button>
+                </td>
+            </tr>
+{{~}}
+        </tbody>
+    </table>
+
+    <h3>Accepts</h3>
+    <table class="uk-table">
+        <thead>
+            <tr><th>Unum</th><th>Fingerprint</th><th></th></tr>
+        </thead>
+        <tbody>
+{{~it.accepted :accepted}}
+            <tr>
+                <td>{{= accepted.unum }}</td>
+                <td><code>{{= accepted.fingerprint }}</code></td>
+                <td>
+    {{? accepted.unum != it.unum.unum }}
+                    <button type="button" OnClick="DRApp.current.controller.revoke('{{!accepted.unum}}');" class="uk-button uk-button-small">
+                        Revoke
+                    </button>
+    {{?}}
+                </td>
+            </tr>
+{{~}}
+        </tbody>
+    </table>
 </div>
 
 {{#def.Footer}}
