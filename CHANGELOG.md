@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.0
+
+- Joining a Unum through the API (unum-apps/unifist-unum#15). `GET /unum` says who this Unum is: its name, its root and the root's fingerprint, and the urls of its apps. `POST /follow {url, fingerprint, app}` reads another Unum's records: it asks the Unum at the url who it is, takes its root on trust only if it has the fingerprint the person confirmed and the Unum is served with a certificate from it, then writes the Route row to the app it names (or the only one it has besides this) and adds the root to the secrets the apps verify it with. `DELETE /follow/<unum>` undoes it. `POST /accept {url, fingerprint}` lets that Unum read this one's records by adding its root to the secret the ingress trusts, and `DELETE /accept/<unum>` revokes it, never leaving the ingress with no root. The secrets are read and written from inside the cluster with pykube-ng, by the ServiceAccount `api`, which the environment gives a Role for just those Secrets. The config file `unum.json` (the Unum's name, its apps' urls, `trusted` and `roots`) and the Unum's client certificate are mounted if the environment has them. There is no auth on the endpoints yet (unum-pillars/unum#1).
+
 ## 0.2.1
 
 - relations-unifist 0.6.0 and relations-unum 0.6.0, so a record's title reads `Full Name (handle)`, with `@home` when it is from another Unum. This app owns no model with a SLUG, so nothing else changes here (unum-apps/unifist-unum#12).

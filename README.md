@@ -58,6 +58,8 @@ Make sure you also have https://github.com/gaf3/tilt-mysql up and running.
 
 Serves the six models under `/model`, with `/health` beside it. Runs the migrations before it starts.
 
+It also joins Unums. `GET /unum` says who this Unum is (name, root, the root's fingerprint, the urls of its apps). `POST /follow {url, fingerprint, app}` reads the records of the Unum at the url: its Route row and its root, in the secrets named by `roots` in `config/unum.json`, to verify it with. `POST /accept {url, fingerprint}` lets that Unum read this one's, by adding its root to the secret named by `trusted`, which the ingress checks client certificates against. `DELETE /follow/<unum>` and `DELETE /accept/<unum>` undo them, and the second never leaves the ingress with no root. The fingerprint is the one the person joining confirmed: a Unum's root can only be taken on trust the first time. The secrets are written from inside the cluster by the ServiceAccount `api`, which the environment gives a Role for just those. There is no auth yet (unum-pillars/unum#1).
+
 - `cd api` - Enter this microservice
 - `make build` - Build the image
 - `make ddl` - Create DDL statements from the models

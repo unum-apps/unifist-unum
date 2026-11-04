@@ -15,6 +15,7 @@ spec:
       labels:
         app: api
     spec:
+      serviceAccountName: api
       initContainers:
       - name: migrate
         image: unum-apps-unifist-unum-api
@@ -56,10 +57,17 @@ spec:
         - name: secret
           mountPath: "/opt/service/secret"
           readOnly: true
+        - name: config
+          mountPath: "/opt/service/config"
+          readOnly: true
       volumes:
       - name: secret
         secret:
           secretName: secret
+      - name: config
+        configMap:
+          name: config
+          optional: true
 ---
 kind: Service
 apiVersion: v1
@@ -77,3 +85,9 @@ spec:
     protocol: TCP
     port: 80
     targetPort: 80
+---
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: api
+  namespace: unifist-unum
